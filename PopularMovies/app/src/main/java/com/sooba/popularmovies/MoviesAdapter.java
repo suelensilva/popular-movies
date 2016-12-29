@@ -18,6 +18,23 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     List<Movie> movies;
 
+    /*
+     * An on-click handler that we've defined to make it easy for an Activity to interface with
+     * our RecyclerView
+     */
+    final private ListItemClickListener mOnClickListener;
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
+    }
+
+    public MoviesAdapter (ListItemClickListener clickListener) {
+        mOnClickListener = clickListener;
+    }
+
 
     @Override
     public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,7 +64,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         return movies.size();
     }
 
-    class MovieHolder extends RecyclerView.ViewHolder {
+    class MovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final TextView mTitle;
         public final TextView mSubtitle;
@@ -57,6 +74,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
             mTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
             mSubtitle = (TextView) itemView.findViewById(R.id.tv_movie_subtitle);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int clickedPosition = getAdapterPosition();
+            mOnClickListener.onListItemClick(clickedPosition);
         }
     }
 }
