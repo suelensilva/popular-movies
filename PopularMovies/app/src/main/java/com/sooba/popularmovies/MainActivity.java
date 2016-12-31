@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar mProgressBar;
 
+    private List<Movie> mMovies;
     private RecyclerView moviesRecyclerView;
     private MoviesAdapter moviesAdapter;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onListItemClick(int clickedItemIndex) {
                 Intent intent = new Intent(MainActivity.this, MovieDetailActivity.class);
+                intent.putExtra("movie", mMovies.get(clickedItemIndex));
                 startActivity(intent);
             }
         });
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
             if(!TextUtils.isEmpty(response)) {
 
-                List<Movie> movies = new ArrayList<>();
+                mMovies = new ArrayList<>();
                 try {
                     JSONObject responseJsonObj = new JSONObject(response);
 
@@ -119,14 +121,14 @@ public class MainActivity extends AppCompatActivity {
                         for(int i = 0; i < results.length(); i++) {
                             JSONObject movieJsonObj = results.getJSONObject(i);
                             Movie movie = new Movie(movieJsonObj);
-                            movies.add(movie);
+                            mMovies.add(movie);
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                moviesAdapter.setData(movies);
+                moviesAdapter.setData(mMovies);
                 moviesRecyclerView.setAdapter(moviesAdapter);
                 moviesAdapter.notifyDataSetChanged();
             }

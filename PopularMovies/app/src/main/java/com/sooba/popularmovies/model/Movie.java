@@ -3,7 +3,9 @@ package com.sooba.popularmovies.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Movie {
+import java.io.Serializable;
+
+public class Movie implements Serializable {
 
     /* EXAMPLE OF A MOVIE STRUCTURE
     "":"\/qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg",
