@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -64,6 +65,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.movies, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id= item.getItemId();
+
+        if(id == R.id.action_most_popular) {
+            new FetchMoviesAsyncTask().execute(NetworkUtils.buildMoviesUrl(NetworkUtils.MOST_POPULAR_LIST, getString(R.string.api_key)));
+        } else if (id == R.id.action_top_rated) {
+            new FetchMoviesAsyncTask().execute(NetworkUtils.buildMoviesUrl(NetworkUtils.TOP_RATED_LIST, getString(R.string.api_key)));
+        }
         return true;
     }
 

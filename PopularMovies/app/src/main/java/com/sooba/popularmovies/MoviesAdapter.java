@@ -57,8 +57,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
         Movie movie = movies.get(position);
 
-        holder.mTitle.setText(movie.getTitle());
-
         String posterPath = movie.getPosterPath();
         Picasso.with(mContext).load(POSTER_BASE_URL+posterPath).into(holder.mPoster);
     }
@@ -77,13 +75,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     class MovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final TextView mTitle;
         public final ImageView mPoster;
 
         public MovieHolder(View itemView) {
             super(itemView);
 
-            mTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
             mPoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
 
             itemView.setOnClickListener(this);
