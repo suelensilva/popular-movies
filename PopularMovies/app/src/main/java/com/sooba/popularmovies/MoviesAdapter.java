@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sooba.popularmovies.model.Movie;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ import java.util.List;
  */
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolder> {
 
+    private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185";
+
+    Context mContext;
     List<Movie> movies;
 
     /*
@@ -31,7 +36,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         void onListItemClick(int clickedItemIndex);
     }
 
-    public MoviesAdapter (ListItemClickListener clickListener) {
+    public MoviesAdapter (Context context, ListItemClickListener clickListener) {
+        mContext = context;
         mOnClickListener = clickListener;
     }
 
@@ -48,8 +54,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     @Override
     public void onBindViewHolder(MovieHolder holder, int position) {
-        holder.mTitle.setText(movies.get(position).getTitle());
-        holder.mSubtitle.setText(movies.get(position).getSubtitle());
+
+        Movie movie = movies.get(position);
+
+        holder.mTitle.setText(movie.getTitle());
+
+        String posterPath = movie.getPosterPath();
+        Picasso.with(mContext).load(POSTER_BASE_URL+posterPath).into(holder.mPoster);
     }
 
     public void setData(List<Movie> movies) {
@@ -67,13 +78,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     class MovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final TextView mTitle;
-        public final TextView mSubtitle;
+        public final ImageView mPoster;
 
         public MovieHolder(View itemView) {
             super(itemView);
 
             mTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
-            mSubtitle = (TextView) itemView.findViewById(R.id.tv_movie_subtitle);
+            mPoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
 
             itemView.setOnClickListener(this);
         }
