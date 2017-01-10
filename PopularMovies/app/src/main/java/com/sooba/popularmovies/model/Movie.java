@@ -30,6 +30,7 @@ public class Movie implements Serializable {
     private static final String ORIGINAL_TITLE_KEY = "original_title";
     private static final String ORIGINAL_LANGUAGE_KEY = "original_language";
     private static final String TITLE_KEY = "title";
+    private static final String VOTE_AVERAGE = "vote_average";
 
     private String posterPath;
     private String overview;
@@ -37,6 +38,7 @@ public class Movie implements Serializable {
     private String originalTitle;
     private String originalLanguage;
     private String title;
+    private double voteAverage;
 
     public Movie(JSONObject jsonMovie) throws JSONException {
         if(jsonMovie.has(POSTER_PATH_KEY)) {
@@ -56,6 +58,10 @@ public class Movie implements Serializable {
         }
         if(jsonMovie.has(TITLE_KEY)) {
             title = jsonMovie.getString(TITLE_KEY);
+        }
+
+        if(jsonMovie.has(VOTE_AVERAGE)) {
+            voteAverage = jsonMovie.getDouble(VOTE_AVERAGE);
         }
     }
 
@@ -105,5 +111,13 @@ public class Movie implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 }
