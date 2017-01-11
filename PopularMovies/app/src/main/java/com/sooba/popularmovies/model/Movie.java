@@ -5,25 +5,12 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+/**
+ * Class that represents a movie and all values related to it
+ */
 public class Movie implements Serializable {
 
-    /* EXAMPLE OF A MOVIE STRUCTURE
-    "":"\/qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg",
-		"adult":false,
-		"overview":"A rogue band of resistance fighters unite for a mission to steal the Death Star plans and bring a new hope to the galaxy.",
-		"release_date":"2016-12-14",
-		"genre_ids":[28,12,14,878,53,10752],
-		"id":330459,
-		"original_title":"Rogue One: A Star Wars Story",
-		"original_language":"en",
-		"title":"Rogue One: A Star Wars Story",
-		"backdrop_path":"\/tZjVVIYXACV4IIIhXeIM59ytqwS.jpg",
-		"popularity":216.524868,
-		"vote_count":1101,
-		"video":false,
-		"vote_average":7.3
-     */
-
+    /* json keys for movies attributes */
     private static final String POSTER_PATH_KEY = "poster_path";
     private static final String OVERVIEW_KEY = "overview";
     private static final String RELEASE_DATE_KEY = "release_date";
@@ -40,6 +27,8 @@ public class Movie implements Serializable {
     private String title;
     private double voteAverage;
 
+    // Construction that uses a json string representing a movie to initialize
+    // a new movie instance
     public Movie(JSONObject jsonMovie) throws JSONException {
         if(jsonMovie.has(POSTER_PATH_KEY)) {
             posterPath = jsonMovie.getString(POSTER_PATH_KEY);

@@ -2,6 +2,7 @@ package com.sooba.popularmovies.utilities;
 
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,26 +11,45 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+/**
+ * Utility class to give method needed to perform connection
+ */
 public class NetworkUtils {
 
+    private static final String TAG = NetworkUtils.class.getSimpleName();
+
+    // Service URL
     private static final String MOVIES_URL = "https://api.themoviedb.org/3/movie";
 
+    // Movies list criteria
     public static final String MOST_POPULAR_LIST = "popular";
     public static final String TOP_RATED_LIST = "top_rated";
 
+    // Queries to be appended in the URL
     private static final String API_KEY_QUERY = "api_key";
     private static final String LANGUAGE_QUERY = "language";
     private static final String PAGE_QUERY = "page";
 
+    // Default value for language
     private static final String LANGUAGE_DEFAULT_VALUE = "en-US";
+
+    // Default value for page
     private static final String PAGE_DEFAULT_VALUE = "1";
 
 
+    /**
+     * Builds a url to fetch a movie list based on the given list type
+     *
+     * @param listType either 'Top Rated' or 'Most Popular' movies
+     * @param apiKey the apiKey of movies service, required to perform a query
+     * @return a URL, built with the given criteria
+     */
     public static URL buildMoviesUrl(String listType, String apiKey) {
 
         if(TextUtils.isEmpty(listType) || TextUtils.isEmpty(apiKey))
             return null;
 
+        // Builds the url using the given query values
         Uri.Builder builder = Uri.parse(MOVIES_URL).buildUpon();
         builder
                 .appendPath(listType)
@@ -42,7 +62,7 @@ public class NetworkUtils {
         try {
             url = new URL(uri.toString());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error while building the URL query");
         }
 
         return url;
@@ -73,6 +93,4 @@ public class NetworkUtils {
             urlConnection.disconnect();
         }
     }
-
-
 }

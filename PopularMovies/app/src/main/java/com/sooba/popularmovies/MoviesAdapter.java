@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sooba.popularmovies.model.Movie;
+import com.sooba.popularmovies.utilities.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,21 +19,16 @@ import java.util.List;
  */
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolder> {
 
-    private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/w500";
-
     Context mContext;
     List<Movie> movies;
 
-    /*
-     * An on-click handler that we've defined to make it easy for an Activity to interface with
-     * our RecyclerView
-     */
+    /* Listener received from activity that will handle the click events */
     final private ListItemClickListener mOnClickListener;
 
     /**
      * The interface that receives onClick messages.
      */
-    public interface ListItemClickListener {
+    interface ListItemClickListener {
         void onListItemClick(int clickedItemIndex);
     }
 
@@ -41,11 +37,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         mOnClickListener = clickListener;
     }
 
-
     @Override
     public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
 
+        // Inflates the view and initialize the holder
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.movie_item, parent, false);
 
@@ -55,10 +51,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     @Override
     public void onBindViewHolder(MovieHolder holder, int position) {
 
+        // Updates the view with the current movie value
         Movie movie = movies.get(position);
-
-        String posterPath = movie.getPosterPath();
-        Picasso.with(mContext).load(POSTER_BASE_URL+posterPath).into(holder.mPoster);
+        String posterPath = Constants.POSTER_BASE_URL + movie.getPosterPath();
+        Picasso.with(mContext).load(posterPath).into(holder.mPoster);
     }
 
     public void setData(List<Movie> movies) {
@@ -73,6 +69,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         return movies.size();
     }
 
+    // View holder to keep a reference to view objects
     class MovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final ImageView mPoster;
@@ -80,13 +77,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         public MovieHolder(View itemView) {
             super(itemView);
 
+            // Initialize the view
             mPoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
 
+            // Setup the onclick listener
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+
+            // Delegate the click to the listener
             int clickedPosition = getAdapterPosition();
             mOnClickListener.onListItemClick(clickedPosition);
         }

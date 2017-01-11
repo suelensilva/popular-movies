@@ -9,15 +9,18 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.sooba.popularmovies.model.Movie;
+import com.sooba.popularmovies.utilities.Constants;
 import com.squareup.picasso.Picasso;
 
+/**
+ * Activity that shows a movie details
+ */
 public class MovieDetailActivity extends AppCompatActivity {
 
-    // TODO remove this constant, because already exists in MainActivity
-    private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/w500";
-
+    // The movie to be detailed
     private Movie mMovie;
 
+    // Views
     private TextView tvTitle;
     private ImageView ivPoster;
     private TextView tvOverview;
@@ -29,6 +32,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
+        // Views initialization
         tvTitle = (TextView) findViewById(R.id.tv_detail_title);
         ivPoster = (ImageView) findViewById(R.id.iv_detail_poster);
         tvOverview = (TextView) findViewById(R.id.tv_detail_overview);
@@ -36,15 +40,21 @@ public class MovieDetailActivity extends AppCompatActivity {
         tvReleaseDate = (TextView) findViewById(R.id.tv_release_date);
 
         Intent intent = getIntent();
-        if(intent.hasExtra("movie")) {
-            mMovie = (Movie) intent.getSerializableExtra("movie");
 
+        // Check if there is a received movie
+        if(intent.hasExtra(Constants.MOVIE_EXTRA)) {
+
+            // Gets the movie to be shown
+            mMovie = (Movie) intent.getSerializableExtra(Constants.MOVIE_EXTRA);
+
+            // Setup the views with the movie values
             tvTitle.setText(mMovie.getTitle());
             tvOverview.setText(mMovie.getOverview());
             rbMovieRating.setRating((float) mMovie.getVoteAverage());
             tvReleaseDate.setText(String.format(getString(R.string.release_date), mMovie.getReleaseDate()));
 
-            Picasso.with(this).load(POSTER_BASE_URL+mMovie.getPosterPath()).into(ivPoster);
+            String posterUrl = Constants.POSTER_BASE_URL + mMovie.getPosterPath();
+            Picasso.with(this).load(posterUrl).into(ivPoster);
         }
     }
 }
