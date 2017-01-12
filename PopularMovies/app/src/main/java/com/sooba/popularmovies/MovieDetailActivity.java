@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.sooba.popularmovies.model.Movie;
 import com.sooba.popularmovies.utilities.Constants;
+import com.sooba.popularmovies.utilities.Utils;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -48,12 +49,12 @@ public class MovieDetailActivity extends AppCompatActivity {
             mMovie = (Movie) intent.getSerializableExtra(Constants.MOVIE_EXTRA);
 
             // Setup the views with the movie values
-            tvTitle.setText(mMovie.getTitle());
+            tvTitle.setText(mMovie.getOriginalTitle());
             tvOverview.setText(mMovie.getOverview());
             rbMovieRating.setRating((float) mMovie.getVoteAverage());
             tvReleaseDate.setText(String.format(getString(R.string.release_date), mMovie.getReleaseDate()));
 
-            String posterUrl = Constants.POSTER_BASE_URL + mMovie.getPosterPath();
+            String posterUrl = Utils.getPosterWidthByDpi(this) + mMovie.getPosterPath();
             Picasso.with(this).load(posterUrl).into(ivPoster);
         }
     }

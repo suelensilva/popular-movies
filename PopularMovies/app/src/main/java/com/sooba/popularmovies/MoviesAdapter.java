@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.sooba.popularmovies.model.Movie;
 import com.sooba.popularmovies.utilities.Constants;
+import com.sooba.popularmovies.utilities.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
         // Updates the view with the current movie value
         Movie movie = movies.get(position);
-        String posterPath = Constants.POSTER_BASE_URL + movie.getPosterPath();
+        String posterPath = Utils.getPosterWidthByDpi(mContext) + movie.getPosterPath();
         Picasso.with(mContext).load(posterPath).into(holder.mPoster);
     }
 
